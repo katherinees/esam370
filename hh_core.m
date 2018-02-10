@@ -172,7 +172,7 @@ binfinity = (1/(1+exp(0.0688*(V+53.3))))^4;
 taub = 1.24+2.678/(1+exp(0.0624*(V+50)));
 bp = (binfinity-b)/taub;
 
-Vp=1/Cm*(Gna*m^3*h*(Ena-V)+Gk*n^4*(Ek-V)+Gl*(El-V)+Iinj);
+Vp=1/Cm*(Gna*m^3*h*(Ena-V)+Gk*n^4*(Ek-V)+Gl*(El-V)+Ga*a^3*b*(V-Ea)+Iinj);
 
 Yp(1)=Vp;
 Yp(2)=np;
