@@ -34,18 +34,17 @@ Iinj=Iinj0;
 % pre-allocate memory for speed
  maxnumsteps=ceil(tmax/dt);
  t=NaN(1,maxnumsteps);
- Y=NaN(maxnumsteps,6); 
+ Y=NaN(maxnumsteps,4); 
 
 % approximate rest state
  V(1)=-65;
  n(1)=.32;
  m(1)=0.053;
  h(1)=.60;
- % add a, b variables to Y
- a(1)=((0.0761*exp(0.0314*(V(1)+94.22)))/(1+exp(0.0346*(V(1)+1.17))))^(1/3);
- b(1)=(1/(1+exp(0.0688*(V(1)+53.3))))^4;
+ a(1)=((0.0761*exp(0.0314*(-65+94.22)))/(1+exp(0.0346*(-65+1.17))))^(1/3);
+ b(1)=
  
- Y(1,:)=[V(1),n(1),m(1),h(1),a(1),b(1)];
+ Y(1,:)=[V(1),n(1),m(1),h(1)];
  
  k=1;
  t(1)=0;
@@ -95,9 +94,8 @@ periods=dt*periods
   legend(' voltage');
   subplot(2,1,2)
   plot(t(1:numsteps),Y(1:numsteps,2),'r',t(1:numsteps),Y(1:numsteps,3),'b',...
-       t(1:numsteps),Y(1:numsteps,4),'m',t(1:numsteps),Y(1:numsteps,5),'g',...
-       t(1:numsteps),Y(1:numsteps,6),'y');
-  legend('n','m','h','a','b');
+       t(1:numsteps),Y(1:numsteps,4),'m');
+  legend('n','m','h');
   axis([0 tmax 0 1]);
   
 end
@@ -120,8 +118,6 @@ V=Y(1);
 n=Y(2);
 m=Y(3);
 h=Y(4);
-a=Y(5);
-b=Y(6);
 
 Gna=1.20; % in mS/mm^2
 %Gna=0;
@@ -167,10 +163,8 @@ np=(ninfinity-n)/taun;
 % define a, b for HW2
 ainfinity = ((0.0761*exp(0.0314*(V+94.22)))/(1+exp(0.0346*(V+1.17))))^(1/3);
 taua = 0.3632+1.158/(1+exp(0.497*(V+55.96)));
-ap = (ainfinity-a)/taua;
 binfinity = (1/(1+exp(0.0688*(V+53.3))))^4;
 taub = 1.24+2.678/(1+exp(0.0624*(V+50)));
-bp = (binfinity-b)/taub;
 
 Vp=1/Cm*(Gna*m^3*h*(Ena-V)+Gk*n^4*(Ek-V)+Gl*(El-V)+Iinj);
 
@@ -178,8 +172,6 @@ Yp(1)=Vp;
 Yp(2)=np;
 Yp(3)=mp;
 Yp(4)=hp;
-Yp(5)=ap;
-Yp(6)=bp;
 
 end
 
