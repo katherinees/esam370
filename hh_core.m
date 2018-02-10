@@ -2,7 +2,7 @@ function hodgkin_huxley
 
 % solves the Hodgkin-Huxley equations using forward Euler
 
-global Ena Ek El Gna Gk Gl
+global Ena Ek El Gna Gk Gl Ea Ga
 global Iinj
 
 set(0,'defaultaxesfontsize',16,'defaultaxeslinewidth',1.5,...
@@ -109,7 +109,7 @@ end
 
 function Yp = F_hh(time,Y) 
  
-global Ena Ek El Gna Gk Gl
+global Ena Ek El Gna Gk Gl Ea Ga
 global Iinj
 
 V=Y(1);
@@ -119,15 +119,18 @@ h=Y(4);
 
 Gna=1.20; % in mS/mm^2
 %Gna=0;
-Ena=50;
-
-Gk=0.36;
+Ena=55;
+Gk=0.2;
 %Gk=0;
-Ek=-77;
+Ek=-72.1;
 
 Cm=0.01; % micro Farad/mm^2; time therefore measured in ms
 Gl=0.003;
-El=-54.387;
+El=-17;
+
+% Homework 2 Part A
+Ea = -75;
+Ga = 0.47;
 
 Vthresh=-40;
 alpham=0.1*(V-Vthresh)/(1-exp(-0.1*(V-Vthresh)));
