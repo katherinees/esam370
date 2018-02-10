@@ -133,17 +133,27 @@ Ea = -75;
 Ga = 0.47;
 
 Vthresh=-40;
-alpham=0.1*(V-Vthresh)/(1-exp(-0.1*(V-Vthresh)));
-betam=4*exp(-0.0556*(V+65));
+
+% alpham=0.1*(V-Vthresh)/(1-exp(-0.1*(V-Vthresh)));
+% betam=4*exp(-0.0556*(V+65));
+% Replace for Homework 2
+alpham=0.38*(V+29.7)/(1-exp(-0.1*(V+29.7)));
+betam=15.2*exp(-0.0556*(V+54.7));
 mp=alpham*(1-m)-betam*m;
  
-alphah=0.07*exp(-0.05*(V+65));
-betah=1/(1+exp(-0.1*(V+35)));
+
+% alphah=0.07*exp(-0.05*(V+65));
+% betah=1/(1+exp(-0.1*(V+35)));
+% Replace for Homework 2
+alphah = 0.266*exp(-0.05*(V+48));
+betah = 3.8/(1+exp(-0.1*(V+18)));
 hp=alphah*(1-h)-betah*h;
 
 Vthresh=-55;
-alphan=0.01*(V-Vthresh)/(1-exp(-0.1*(V-Vthresh)));
-betan=0.125*exp(-0.0125*(V+65));
+%alphan=0.01*(V-Vthresh)/(1-exp(-0.1*(V-Vthresh)));
+%betan=0.125*exp(-0.0125*(V+65));
+alphan = 0.02*(V+45.7)/(1-exp(-0.1*(V+45.7)));
+betan = 0.25*exp(-0.0125*(V+55.7));
 ninfinity=alphan/(alphan+betan);
 taun=1/(alphan+betan);
 np=(ninfinity-n)/taun;
