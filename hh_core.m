@@ -1,9 +1,9 @@
-function hodgkin_huxley
+function Y = hodgkin_huxley
 
 % solves the Hodgkin-Huxley equations using forward Euler
 
 global Ena Ek El Gna Gk Gl Ea Ga
-global Iinj
+global Iinj Iinj0 time1 duration1 Iinj1 time2 duration2 Iinj2
 
 set(0,'defaultaxesfontsize',16,'defaultaxeslinewidth',1.5,...
 'defaultlinelinewidth',2.,'defaultpatchlinewidth',1.5)
@@ -20,9 +20,9 @@ end
 Iinj0=0.0;
 
 % generate brief pulse of injected current
-time1=50;
-duration1=5;
-Iinj1=0.03; % in mA/mm^2
+time1=0;
+duration1=Inf;
+Iinj1=0.3; % in mA/mm^2
 
 % generate second brief pulse of injected current
 time2=Inf;
@@ -34,7 +34,8 @@ Iinj=Iinj0;
 % pre-allocate memory for speed
  maxnumsteps=ceil(tmax/dt);
  t=NaN(1,maxnumsteps);
- Y=NaN(maxnumsteps,6); 
+ %Y=NaN(maxnumsteps,6);
+ Y = zeros(1,6);
 
 % approximate rest state
  V(1)=-65;
@@ -50,34 +51,38 @@ Iinj=Iinj0;
  k=1;
  t(1)=0;
  
- while t(k) < tmax
-  
-  if t(k) >= time1
-    Iinj=Iinj1;
-  end 
-  if t(k) >= time1+duration1
-    Iinj=Iinj0;
-  end 
-  if t(k) >= time2
-    Iinj=Iinj2;
-  end 
-  if t(k) >= time2+duration2
-    Iinj=Iinj0;
-  end
+%  while t(k) < tmax
+%   
+%   if t(k) >= time1
+%     Iinj=Iinj1;
+%   end 
+%   if t(k) >= time1+duration1
+%     Iinj=Iinj0;
+%   end 
+%   if t(k) >= time2
+%     Iinj=Iinj2;
+%   end 
+%   if t(k) >= time2+duration2
+%     Iinj=Iinj0;
+%   end
+% 
+%   % at this point only forward Euler implemented. 
+%   % matlab's ode15s would be better 
+%   [Y(k+1,:)]=FE(t(k),Y(k,:),dt);
+%   t(k+1)=t(k)+dt;
+%   k=k+1;
+% 
+%   if mod(k,1000) == 0
+%     fprintf('%g steps t = %g dt =%g \n',k,t(k),dt);
+%   end
+%   
+%  end   
 
-  % at this point only forward Euler implemented. 
-  % matlab's ode15s would be better 
-  [Y(k+1,:)]=FE(t(k),Y(k,:),dt);
-  t(k+1)=t(k)+dt;
-  k=k+1;
+[t, Y] = ode15s(@F, [0, tmax], Y);
 
-  if mod(k,1000) == 0
-    fprintf('%g steps t = %g dt =%g \n',k,t(k),dt);
-  end
-  
- end   
- 
-numsteps=k-1;
+size(Y)
+
+numsteps=size(Y,1);
 
 % determine periods
 V=Y(1:numsteps,1);
@@ -105,9 +110,23 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function Yp=F(time,Y)
+  global Iinj0 Iinj time1 duration1 Iinj1 time2 duration2 Iinj2
+  if time >= time1
+    Iinj=Iinj1;
+  end 
+  if time >= time1+duration1
+    Iinj=Iinj0;
+  end 
+  if time >= time2
+    Iinj=Iinj2;
+  end 
+  if time >= time2+duration2
+    Iinj=Iinj0;
+  end
 
-  Yp=F_hh(time,Y);
 
+  Yp=F_hh(time,Y)';
+  
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
