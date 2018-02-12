@@ -1,4 +1,4 @@
-function Y = hodgkin_huxley
+function period = hodgkin_huxley(injection)
 
 % solves the Hodgkin-Huxley equations using forward Euler
 
@@ -9,7 +9,7 @@ set(0,'defaultaxesfontsize',16,'defaultaxeslinewidth',1.5,...
 'defaultlinelinewidth',2.,'defaultpatchlinewidth',1.5)
 
 dt=.01;
-tmax=100;
+tmax=2000;
 % need integer ratio tmax/dt
 nsteps=tmax/dt;
 if (floor(nsteps)~=nsteps)
@@ -20,9 +20,9 @@ end
 Iinj0=0.0;
 
 % generate brief pulse of injected current
-time1=0;
+time1=50;
 duration1=Inf;
-Iinj1=0.3; % in mA/mm^2
+Iinj1=injection; % in mA/mm^2
 
 % generate second brief pulse of injected current
 time2=Inf;
@@ -80,7 +80,6 @@ Iinj=Iinj0;
 
 [t, Y] = ode15s(@F, [0, tmax], Y);
 
-size(Y)
 
 numsteps=size(Y,1);
 
@@ -89,7 +88,13 @@ V=Y(1:numsteps,1);
 Vsignchange=V(1:end-1).*V(2:end);
 indsignchange=find(Vsignchange<0);
 periods=indsignchange(3:end)-indsignchange(1:end-2);
-periods=dt*periods
+periods=dt*periods;
+
+if numel(periods) > 0 
+    period = periods(end);
+else
+    period = 0;
+end
 
 % plotting
 
@@ -104,6 +109,20 @@ periods=dt*periods
        t(1:numsteps),Y(1:numsteps,6),'y');
   legend('n','m','h','a','b');
   axis([0 tmax 0 1]);
+  
+  figure(2)
+  subplot(1,2,1)
+  plot(Y(200:numsteps,1), Y(200:numsteps,2));
+  title('Voltage vs. n');
+  xlabel('Voltage');
+  ylabel('n');
+  
+  subplot(1,2,2)
+  plot(Y(200:numsteps,1), Y(200:numsteps,4));
+  title('Voltage vs. h');
+  xlabel('Voltage');
+  ylabel('h');
+  
   
 end
 
@@ -191,7 +210,7 @@ binfinity = (1/(1+exp(0.0688*(V+53.3))))^4;
 taub = 1.24+2.678/(1+exp(0.0624*(V+50)));
 bp = (binfinity-b)/taub;
 
-Vp=1/Cm*(Gna*m^3*h*(Ena-V)+Gk*n^4*(Ek-V)+Gl*(El-V)+Ga*a^3*b*(V-Ea)+Iinj);
+Vp=1/Cm*(Gna*m^3*h*(Ena-V)+Gk*n^4*(Ek-V)+Gl*(El-V)+Ga*a^3*b*(Ea-V)+Iinj);
 
 Yp(1)=Vp;
 Yp(2)=np;
