@@ -9,7 +9,7 @@ set(0,'defaultaxesfontsize',16,'defaultaxeslinewidth',1.5,...
 'defaultlinelinewidth',2.,'defaultpatchlinewidth',1.5)
 
 dt=.01;
-tmax=2000;
+tmax=100;
 % need integer ratio tmax/dt
 nsteps=tmax/dt;
 if (floor(nsteps)~=nsteps)
@@ -22,7 +22,7 @@ Iinj0=0.0;
 % generate brief pulse of injected current
 time1=0;
 duration1=500;
-Iinj1=0.07; % in mA/mm^2
+Iinj1=0.08; % in mA/mm^2
 
 % generate second brief pulse of injected current
 time2=Inf;
@@ -107,16 +107,14 @@ periods=dt*periods
   
   figure(2);
   subplot(2,1,1)
-  plot(Y(1:numsteps,1), Y(1:numsteps,2))
+  plot(Y(1:numsteps,1), Y:numsteps,2))
   xlabel('V(t)')
   ylabel('n(t)')
   subplot(2,1,2)
-  hold on
-  plot(Y(1:numsteps,1), Y(1:numsteps,4))
+  plot(Y(60:numsteps,1), Y(60:numsteps,4))
   xlabel('V(t)')
   ylabel('h(t)')
   fprintf('length of V is %d', numsteps)
-  plot(Y(1:numsteps,1), Y(1:numsteps,4))
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
