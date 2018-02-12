@@ -21,8 +21,8 @@ Iinj0=0.0;
 
 % generate brief pulse of injected current
 time1=0;
-duration1=Inf;
-Iinj1=0.3; % in mA/mm^2
+duration1=500;
+Iinj1=0.1; % in mA/mm^2
 
 % generate second brief pulse of injected current
 time2=Inf;
@@ -104,6 +104,16 @@ periods=dt*periods
        t(1:numsteps),Y(1:numsteps,6),'y');
   legend('n','m','h','a','b');
   axis([0 tmax 0 1]);
+  
+  figure(2);
+  subplot(2,1,1)
+  plot(Y(200:numsteps,1), Y(200:numsteps,2))
+  xlabel('V(t)')
+  ylabel('n(t)')
+  subplot(2,1,2)
+  plot(Y(200:numsteps,1), Y(200:numsteps,4))
+  xlabel('V(t)')
+  ylabel('h(t)')
   
 end
 
@@ -191,7 +201,7 @@ binfinity = (1/(1+exp(0.0688*(V+53.3))))^4;
 taub = 1.24+2.678/(1+exp(0.0624*(V+50)));
 bp = (binfinity-b)/taub;
 
-Vp=1/Cm*(Gna*m^3*h*(Ena-V)+Gk*n^4*(Ek-V)+Gl*(El-V)+Ga*a^3*b*(V-Ea)+Iinj);
+Vp=1/Cm*(Gna*m^3*h*(Ena-V)+Gk*n^4*(Ek-V)+Gl*(El-V)+Ga*a^3*b*(Ea-V)+Iinj);
 
 Yp(1)=Vp;
 Yp(2)=np;
