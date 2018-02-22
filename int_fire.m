@@ -55,6 +55,11 @@ for i = 1:tlength-1
     end
     vp(i, 2) = -10*v(i, 2) + Ie - G*Ps1(i)*(v(i,2)-Esyn);
     v(i+1, 2) = v(i, 2) + tstep*vp(i,2);
+    A2p(i) = -1*A2(i)/tau1;
+    A2(i+1) = A2(i) + tstep*A2p(i);
+    B2p(i) = -1*B2(i)/tau2;
+    B2(i+1) = B2(i) + tstep*B2p(i);
+    Ps2(i+1) = N*(A2(i+1) - B2(i+1));
     if (v(i, 2) < vthresh && v(i+1, 2) > vthresh)
         v(i+1, 2) = vreset;
         % fprintf('V2 spike at %d\n', time(i))
@@ -69,7 +74,7 @@ minlength = min(length(tspike1), length(tspike2));
 dPhi = zeros(minlength, 1);
 diff = zeros(minlength, 1);
 for i = 1:length(dPhi)-1
-    dPhi(i) = (tspike1(i+1) - tspike2(i+1))/(tspike1(i+1)-tspike2(i));
+    dPhi(i) = (tspike1(i+1) - tspike2(i+1))/(tspike1(i+1)-tspike1(i));
     diff(i) = tspike1(i+1)-tspike2(i+1);
 end
 %plot(time, v(:,1))
