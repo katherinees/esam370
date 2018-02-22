@@ -8,9 +8,9 @@ for i = 1:length(taus)
     tspike1 = output(:,1);
     dPhi = output(:,2);
     diff = output(:,3);
-    plot(tspike1, diff);
-    legend('0.02', '0.07', '0.12', '0.17', '0.22', '0.27', '0.32', '0.37')
+    plot(tspike1, diff); 
 end
+legend('0.02', '0.07', '0.12', '0.17', '0.22', '0.27', '0.32', '0.37')
 xlabel('spike time of neuron 1')
 ylabel('difference between time of kth spike of neuron 1 and 2')
 hold off
@@ -22,9 +22,9 @@ for i = 1:length(taus)
     tspike1 = output(:,1);
     dPhi = output(:,2);
     plot(tspike1, dPhi);
-    legend('0.02', '0.07', '0.12', '0.17', '0.22', '0.27', '0.32', '0.37')
     part2(i) = dPhi(end);
 end
+legend('0.02', '0.07', '0.12', '0.17', '0.22', '0.27', '0.32', '0.37')
 xlabel('spike time of neuron 1')
 ylabel('phase')
 hold off
