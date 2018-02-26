@@ -77,7 +77,9 @@ for i = 1:length(dPhi)-1
     dPhi(i) = (tspike1(i+1) - tspike2(i+1))/(tspike1(i+1)-tspike1(i));
     diff(i) = tspike1(i+1)-tspike2(i+1);
 end
-%plot(time, v(:,1))
+
+
+plot(time, v(:,2), 'b', time, v(:,1),'r')
 
 output = [tspike1(1:minlength-1,:) dPhi(1:end-1,:) diff(1:end-1,:)];
 end
