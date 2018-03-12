@@ -25,9 +25,9 @@ v(flips) = -1*v(flips);
 for ii = 1:2500
     [v,d(ii)] = hopfieldAsync(v,M);
 end
-fprintf("Number of differences: %d \n",sum(d));
+fprintf('Number of differences: %d \n',sum(d));
 plot(1:2500,d);
 title('Number of differences vs. iteration');
-fprintf("Number of differences from v_pattern: %d \n", sum(abs(v_pattern~=v)));
+fprintf('Number of differences from v_pattern: %d \n', sum(abs(v_pattern~=v)));
 
 
