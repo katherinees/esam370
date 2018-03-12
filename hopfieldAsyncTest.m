@@ -21,12 +21,23 @@ while numel(unique(flips))~=5
 end
 
 v(flips) = -1*v(flips);
-
-for ii = 1:2500
+figure
+subplot(1,2,1)
+imagesc(reshape(v_pattern,[10,10]));
+title('Memory');
+hold on
+time = 700;
+d = zeros(time,1);
+for ii = 1:time
     [v,d(ii)] = hopfieldAsync(v,M);
+    temp = reshape(v,[10,10]);
+    subplot(1,2,2)
+    imagesc(temp)
+    pause(.001)
 end
 fprintf('Number of differences: %d \n',sum(d));
-plot(1:2500,d);
+figure
+plot(1:time,d);
 title('Number of differences vs. iteration');
 fprintf('Number of differences from v_pattern: %d \n', sum(abs(v_pattern~=v)));
 

@@ -1,27 +1,30 @@
-function hw43c(N, k, p)
+function dist =  hw43c(N, k, p, pattern)
 
-pattern = zeros(N, k);
-M = zeros(N, N, k);
+% make k patterns and associated M matrix
+M = MBuilder(pattern);
 
-% make k patterns and associated M matrices
-for i = 1:k
-    pattern(:, i) = sign(2*rand(N,1)-1);
-    M(:,:,i) = (1/N)*pattern(:,i)*pattern(:,i)';
-end
-
-for i = 1:k
-    if rand > p
-        pattern(:,i) = -1*pattern(:,i);
-    end
-end
-
-infty = 20*N;
-for j = 1:infty
-    for i = 1:k
-        [v_i, d] = hopfieldAsync(pattern(:,i), M(:, :, i));
+distances = zeros(200,k);
+for aa = 1:200
+    for ii = 1:k
+        
+        tempPattern = pattern(:,ii);
+        for jj = 1:N
+            if rand < p
+                tempPattern(jj) = -1*tempPattern(jj);
+            end
+        end
+        
+        for kk = 1:20*N
+            tempPattern  = hopfieldAsync(tempPattern,M);
+        end
+        
+        distances(aa,ii) = sum(tempPattern ~= pattern(:,ii));
         
     end
 end
+
+dist = mean(mean(distances));
+
 
 
 end
