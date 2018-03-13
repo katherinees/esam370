@@ -14,7 +14,7 @@ for aa = 1:200
             end
         end
         
-        for kk = 1:20*N
+        for kk = 1:10*N
             tempPattern  = hopfieldAsync(tempPattern,M);
         end
         

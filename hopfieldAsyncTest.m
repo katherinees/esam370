@@ -32,13 +32,17 @@ for ii = 1:time
     [v,d(ii)] = hopfieldAsync(v,M);
     temp = reshape(v,[10,10]);
     subplot(1,2,2)
+    
     imagesc(temp)
+    title('Final Hopfield Result')
     pause(.001)
 end
 fprintf('Number of differences: %d \n',sum(d));
 figure
 plot(1:time,d);
 title('Number of differences vs. iteration');
+xlabel('Iterations');
+ylabel('Number of differences');
 fprintf('Number of differences from v_pattern: %d \n', sum(abs(v_pattern~=v)));
 
 

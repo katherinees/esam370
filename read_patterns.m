@@ -1,7 +1,11 @@
 
-function [patterns,N,N_pattern]=read_patterns
+function [patterns,N,N_pattern]=read_patterns(number)
 
-pattern_list=[1,2,3];
+if number == 3
+    pattern_list=[1,2,3];
+else 
+    pattern_list=[1,2,3,4];
+end
 
 N=60;
 N_pattern=8;
