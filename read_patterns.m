@@ -1,4 +1,3 @@
-
 function [patterns,N,N_pattern]=read_patterns(number)
 
 if number == 3

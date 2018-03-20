@@ -8,11 +8,14 @@ for aa = 1:200
     for ii = 1:k
         
         tempPattern = pattern(:,ii);
-        for jj = 1:N
-            if rand < p
-                tempPattern(jj) = -1*tempPattern(jj);
+        if p ~= 0 
+            for jj = 1:N
+                if rand < p
+                    tempPattern(jj) = -1*tempPattern(jj);
+                end
             end
         end
+        
         
         for kk = 1:10*N
             tempPattern  = hopfieldAsync(tempPattern,M);

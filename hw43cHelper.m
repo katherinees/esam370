@@ -1,7 +1,7 @@
 N = 8;
 k = 3;
 
-N = [8,15];
+N = [64,225];
 k = [3,6,10];
 
 figure
@@ -17,6 +17,8 @@ for nn = 1:numel(N)
         end
         subplot(numel(N),numel(k), (nn-1)*numel(k)+kk)
         plot(probs,dist);
+        xlabel('Probability');
+        ylabel('Distance');
         title(['N = ', num2str(N(nn)),' k = ', num2str(k(kk))]);
         
        
